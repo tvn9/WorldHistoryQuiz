@@ -20,132 +20,304 @@ c.A correct answer(use number answer options)
 7. Suppose this code would be a plugin for other programmers to use in the code.So make sure that all your code is private and don't interfere with the other programmers code (Hint: we learned a special technique to do exactly that).
 */
 
-// Function Constructor
-function Question(question, answers, correct) {
-  this.question = question;
-  this.answers = answers;
-  this.correct = correct;
-};
+/*
 
-// displayQuestion method
-Question.prototype.displayQuestion = function () {
-  console.log(this.question);
-  // console.log(this.correct);
-  for (let i = 0; i < this.answers.length; i++) {
-    console.log(this.answers[i]);
+// IIFE Code privacy setup
+(function () {
+
+  // Function Constructor
+  function Question(question, answers, correct) {
+    this.question = question;
+    this.answers = answers;
+    this.correct = correct;
+  };
+
+  // displayQuestion method
+  Question.prototype.displayQuestion = function () {
+    console.log(this.question);
+    // console.log(this.correct);
+    for (let i = 0; i < this.answers.length; i++) {
+      console.log(this.answers[i]);
+    }
+  };
+
+  // checkAnswer method
+  Question.prototype.checkAnswer = function (ans) {
+    if (ans === this.correct) {
+      console.log('Correct Answer!');
+    } else {
+      console.log('Incorect Answer, try again!');
+    }
   }
-};
 
-// checkAnswer method
-Question.prototype.checkAnswer = function (ans) {
-  if (ans === this.correct) {
-    console.log('Correct Answer!');
-  } else {
-    console.log('Incorect Answer, try again!');
+  // Create Questions
+  const q1 = new Question(
+    'Q1. What is one feature that distinguishes Homo sapiens from its predicessors?',
+    [
+      'A. complex spoken language',
+      'B. ability to control complex tools',
+      'C. bipedalism'
+    ], 'a');
+
+  const q2 = new Question(
+    'Q2. Which evolutionary theory suggests that early hominids adapted more easily to dry climates?',
+    [
+      'A. the savannah hypothesis',
+      'B. the aridity hypothesis',
+      'C. the oasis theory'
+    ], 'b');
+
+  const q3 = new Question(
+    'Q3. What is the most widely accepted theory about human migration to the Americas?',
+    [
+      'A. They traveled by sea, from East Asia',
+      'B. They traveled by land, crossing the Bering land bridge',
+      'C. They traveled by sea, from West Afric'
+    ], 'b');
+
+  const q4 = new Question(
+    'Q4. Which early hominid species was one of the first to control fire and migrate to new regions?',
+    [
+      'A. Homo habilis',
+      'B. Homo sapiens',
+      'C. Homo erectus'
+    ], 'c');
+
+  const q5 = new Question(
+    'Q5. Why is it difficult for historians to study early human societies?',
+    [
+      'A. There are no surviving artifacts or fossils from that time',
+      'B. Written records from that time are indecipherable or meaningless',
+      'C. Before the advent of writing, historians had fewer and less detailed resources to work with'
+    ], 'c');
+
+  const q6 = new Question(
+    'Q6. Artifacts are best described as',
+    [
+      'A. objects made by humans',
+      'B. objects made with iron tools',
+      'C. naturally occurring objects'
+    ], 'a');
+
+  const q7 = new Question(
+    'Q7. What\'s the difference between carbon dating and stratigraphic dating?',
+    [
+      'A. Stratigraphic dating uses the content of the fossils or artifacts themselves to place them in time; carbon dating relies on the layers of earth surrounding fossils or artifacts',
+      'B. Carbon dating places fossils or artifacts in time by measuring their radiocarbon content stratigraphic dating relies on the layers of earth surrounding those fossils or artifacts',
+      'C. Stratigraphic dating is a type of radioactive dating that only applies to matter which was once living'
+    ], 'b');
+
+  const q8 = new Question(
+    'Q8. Evidence for the widespread use of language by humans during the Paleolithic includes:',
+    [
+      'A. Various written inscriptions found at Paleolithic sites',
+      'B. The ability to hunt animals for food',
+      'C. Long - distance travel and trade, and the organization of complex social and cultural structures'
+    ], 'c');
+
+  const q9 = new Question(
+    'Q9. One reason for increased human cooperation and group organization during the Paleolithic was that:',
+    [
+      'A. Religious beliefs required social groups',
+      'B. It allowed for division of labor and specialization to better exploit resources',
+      'C. Agriculture was only possible with organized groups'
+    ], 'b');
+
+  const q10 = new Question(
+    'Q10. Paleolithic(“Stone Age”) refers to the fact that during this period humans:',
+    [
+      'A. Used stone exclusively as a building material',
+      'B. Began using stone tools to manipulate their environments',
+      'C. Painted on the stone walls of caves'
+    ], 'b');
+
+  const q11 = new Question(
+    'Q11. Agriculture had an advantage over hunting and foraging because it:',
+    [
+      'A. Required less labor than hunting and foraging',
+      'B. Allowed for greater mobility',
+      'C. Improved the regularity and efficiency of food supplies'
+    ], 'c');
+
+  // Store all questions in and array
+  const questions = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11];
+
+  const indexNum = Math.floor(Math.random() * questions.length);
+
+  questions[indexNum].displayQuestion();
+
+  let answer = prompt('Please select the correct answer.');
+  answer = answer.toLowerCase();
+
+  questions[indexNum].checkAnswer(answer);
+
+})();
+
+*/
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Advance Level World History Quiz
+//
+
+// IIFE Code privacy setup
+(function () {
+
+  // Function Constructor
+  function Question(question, answers, correct) {
+    this.question = question;
+    this.answers = answers;
+    this.correct = correct;
+  };
+
+  // displayQuestion method
+  Question.prototype.displayQuestion = function () {
+    console.log(this.question);
+    // console.log(this.correct);
+    for (let i = 0; i < this.answers.length; i++) {
+      console.log(this.answers[i]);
+    }
+  };
+
+  // checkAnswer method
+  Question.prototype.checkAnswer = function (ans, keepScore) {
+    let score = 0;
+    if (ans === this.correct) {
+      console.log('Correct Answer!');
+      score = keepScore(true);
+    } else {
+      console.log('Incorect Answer, try again!');
+      score = keepScore(false);
+    }
+    this.displayScore(score);
   }
-}
 
-// Create Questions
-const q1 = new Question(
-  'Q1. What is one feature that distinguishes Homo sapiens from its predicessors?',
-  [
-    'A. complex spoken language',
-    'B. ability to control complex tools',
-    'C. bipedalism'
-  ], 'a');
+  Question.prototype.displayScore = function (score) {
+    console.log('Your current score is: ' + score);
+    console.log('--------------------------------------------------------------------------------');
+  }
 
-const q2 = new Question(
-  'Q2. Which evolutionary theory suggests that early hominids adapted more easily to dry climates?',
-  [
-    'A. the savannah hypothesis',
-    'B. the aridity hypothesis',
-    'C. the oasis theory'
-  ], 'b');
+  // Create Questions
+  const q1 = new Question(
+    'What is one feature that distinguishes Homo sapiens from its predicessors?',
+    [
+      'A. complex spoken language',
+      'B. ability to control complex tools',
+      'C. bipedalism'
+    ], 'a');
 
-const q3 = new Question(
-  'Q3. What is the most widely accepted theory about human migration to the Americas?',
-  [
-    'A. They traveled by sea, from East Asia',
-    'B. They traveled by land, crossing the Bering land bridge',
-    'C. They traveled by sea, from West Afric'
-  ], 'b');
+  const q2 = new Question(
+    'Which evolutionary theory suggests that early hominids adapted more easily to dry climates?',
+    [
+      'A. the savannah hypothesis',
+      'B. the aridity hypothesis',
+      'C. the oasis theory'
+    ], 'b');
 
-const q4 = new Question(
-  'Q4. Which early hominid species was one of the first to control fire and migrate to new regions?',
-  [
-    'A. Homo habilis',
-    'B. Homo sapiens',
-    'C. Homo erectus'
-  ], 'c');
+  const q3 = new Question(
+    'What is the most widely accepted theory about human migration to the Americas?',
+    [
+      'A. They traveled by sea, from East Asia',
+      'B. They traveled by land, crossing the Bering land bridge',
+      'C. They traveled by sea, from West Afric'
+    ], 'b');
 
-const q5 = new Question(
-  'Q5. Why is it difficult for historians to study early human societies?',
-  [
-    'A. There are no surviving artifacts or fossils from that time',
-    'B. Written records from that time are indecipherable or meaningless',
-    'C. Before the advent of writing, historians had fewer and less detailed resources to work with'
-  ], 'c');
+  const q4 = new Question(
+    'Which early hominid species was one of the first to control fire and migrate to new regions?',
+    [
+      'A. Homo habilis',
+      'B. Homo sapiens',
+      'C. Homo erectus'
+    ], 'c');
 
-const q6 = new Question(
-  'Q6. Artifacts are best described as',
-  [
-    'A. objects made by humans',
-    'B. objects made with iron tools',
-    'C. naturally occurring objects'
-  ], 'a');
+  const q5 = new Question(
+    'Why is it difficult for historians to study early human societies?',
+    [
+      'A. There are no surviving artifacts or fossils from that time',
+      'B. Written records from that time are indecipherable or meaningless',
+      'C. Before the advent of writing, historians had fewer and less detailed resources to work with'
+    ], 'c');
 
-const q7 = new Question(
-  'Q7. What\'s the difference between carbon dating and stratigraphic dating?',
-  [
-    'A. Stratigraphic dating uses the content of the fossils or artifacts themselves to place them in time; carbon dating relies on the layers of earth surrounding fossils or artifacts',
-    'B. Carbon dating places fossils or artifacts in time by measuring their radiocarbon content stratigraphic dating relies on the layers of earth surrounding those fossils or artifacts',
-    'C. Stratigraphic dating is a type of radioactive dating that only applies to matter which was once living'
-  ], 'b');
+  const q6 = new Question(
+    'Artifacts are best described as',
+    [
+      'A. objects made by humans',
+      'B. objects made with iron tools',
+      'C. naturally occurring objects'
+    ], 'a');
 
-const q8 = new Question(
-  'Q8. Evidence for the widespread use of language by humans during the Paleolithic includes:',
-  [
-    'A. Various written inscriptions found at Paleolithic sites',
-    'B. The ability to hunt animals for food',
-    'C. Long - distance travel and trade, and the organization of complex social and cultural structures'
-  ], 'c');
+  const q7 = new Question(
+    'What\'s the difference between carbon dating and stratigraphic dating?',
+    [
+      'A. Stratigraphic dating uses the content of the fossils or artifacts themselves to place them in time; carbon dating relies on the layers of earth surrounding fossils or artifacts',
+      'B. Carbon dating places fossils or artifacts in time by measuring their radiocarbon content stratigraphic dating relies on the layers of earth surrounding those fossils or artifacts',
+      'C. Stratigraphic dating is a type of radioactive dating that only applies to matter which was once living'
+    ], 'b');
 
-const q9 = new Question(
-  'Q9. One reason for increased human cooperation and group organization during the Paleolithic was that:',
-  [
-    'A. Religious beliefs required social groups',
-    'B. It allowed for division of labor and specialization to better exploit resources',
-    'C. Agriculture was only possible with organized groups'
-  ], 'b');
+  const q8 = new Question(
+    'Evidence for the widespread use of language by humans during the Paleolithic includes:',
+    [
+      'A. Various written inscriptions found at Paleolithic sites',
+      'B. The ability to hunt animals for food',
+      'C. Long - distance travel and trade, and the organization of complex social and cultural structures'
+    ], 'c');
 
-const q10 = new Question(
-  'Q10. Paleolithic(“Stone Age”) refers to the fact that during this period humans:',
-  [
-    'A. Used stone exclusively as a building material',
-    'B. Began using stone tools to manipulate their environments',
-    'C. Painted on the stone walls of caves'
-  ], 'b');
+  const q9 = new Question(
+    'One reason for increased human cooperation and group organization during the Paleolithic was that:',
+    [
+      'A. Religious beliefs required social groups',
+      'B. It allowed for division of labor and specialization to better exploit resources',
+      'C. Agriculture was only possible with organized groups'
+    ], 'b');
 
-const q11 = new Question(
-  'Q11. Agriculture had an advantage over hunting and foraging because it:',
-  [
-    'A. Required less labor than hunting and foraging',
-    'B. Allowed for greater mobility',
-    'C. Improved the regularity and efficiency of food supplies'
-  ], 'c');
+  const q10 = new Question(
+    'Paleolithic (“Stone Age”) refers to the fact that during this period humans:',
+    [
+      'A. Used stone exclusively as a building material',
+      'B. Began using stone tools to manipulate their environments',
+      'C. Painted on the stone walls of caves'
+    ], 'b');
 
-// Store all questions in and array
-const questions = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11];
-console.log(questions);
+  const q11 = new Question(
+    'Agriculture had an advantage over hunting and foraging because it:',
+    [
+      'A. Required less labor than hunting and foraging',
+      'B. Allowed for greater mobility',
+      'C. Improved the regularity and efficiency of food supplies'
+    ], 'c');
 
-const indexNum = Math.floor(Math.random() * questions.length);
+  // Store all questions in and array
+  const questions = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11];
 
-questions[indexNum].displayQuestion();
+  function updateScore() {
+    let score = 0;
+    return function (correct) {
+      if (correct) {
+        score++;
+      }
+      return score;
+    }
+  }
 
-let answer = prompt('Please select the correct answer.');
-answer = answer.toLowerCase();
+  const keepScore = updateScore();
 
-questions[indexNum].checkAnswer(answer);
+  // nextQuestion function
+  function nextQuestion() {
+
+    const indexNum = Math.floor(Math.random() * questions.length);
+
+    questions[indexNum].displayQuestion();
+
+    let answer = prompt('Please enter a, b, or c to select your answer. or type Exit to stop the quiz');
+    answer = answer.toLowerCase();
+
+    if (answer !== 'exit') {
+      questions[indexNum].checkAnswer(answer, keepScore);
+      nextQuestion();
+    }
+  }
+  nextQuestion();
+
+})();
 
 
 
